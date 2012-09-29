@@ -39,6 +39,13 @@
 
 !SLIDE execute
 
+# Executable Haskell #
+
+	@@@ haskell
+	10 * 10
+
+!SLIDE execute
+
 # Executable Ruby #
 
 	@@@ ruby

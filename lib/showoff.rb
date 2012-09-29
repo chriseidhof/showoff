@@ -8,6 +8,7 @@ require 'logger'
 here = File.expand_path(File.dirname(__FILE__))
 require "#{here}/showoff_utils"
 require "#{here}/commandline_parser"
+require "#{here}/ghci-wrapper"
 
 begin
   require 'RMagick'
@@ -575,8 +576,19 @@ class ShowOff < Sinatra::Application
      e.message
    end
 
+   def eval_haskell code
+     $ghci ||= GHCi.new
+     $ghci.evaluate(code)
+   end
+
   get '/eval_ruby' do
     return eval_ruby(params[:code]) if ENV['SHOWOFF_EVAL_RUBY']
+
+    return "Ruby Evaluation is off. To turn it on set ENV['SHOWOFF_EVAL_RUBY']"
+  end
+
+  get '/eval_haskell' do
+    return eval_haskell(params[:code]) if ENV['SHOWOFF_EVAL_RUBY']
 
     return "Ruby Evaluation is off. To turn it on set ENV['SHOWOFF_EVAL_RUBY']"
   end

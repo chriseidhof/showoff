@@ -352,6 +352,10 @@ function executeAnyCode()
   if ($coffeeCode.length > 0) {
       executeCoffee.call($coffeeCode);
   } 
+  var $haskellCode = $('.execute .sh_haskell code:visible')
+  if ($haskellCode.length > 0) {
+      executeHaskell.call($haskellCode);
+  } 
 }
 
 function debug(data)
@@ -550,6 +554,15 @@ function executeRuby () {
     });
 }
 $('.execute .sh_ruby code').live("click", executeRuby);
+function executeHaskell () {
+	var codeDiv = $(this);
+	codeDiv.addClass("executing");
+    $.get('/eval_haskell', {code: codeDiv.text()}, function(result) {
+        if (result != null) print(result);
+        codeDiv.removeClass("executing");
+    });
+}
+$('.execute .sh_haskell code').live("click", executeHaskell);
 
 function executeCoffee() {
 	result = null;
